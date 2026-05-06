@@ -73,6 +73,12 @@ body.paused #controls { opacity: 0.6; }
 #pause-indicator.show { opacity: 0.8; }
 #counter { position: fixed; top: 1rem; left: 1.5rem; font-size: 0.75rem; opacity: 0; transition: opacity 0.5s; z-index: 20; pointer-events: none; }
 body.paused #counter { opacity: 0.5; }
+#slide-id {
+  position: fixed; bottom: 0.8rem; right: 1.5rem; font-size: 0.7rem; opacity: 0;
+  transition: opacity 0.5s; z-index: 20; pointer-events: none; font-family: 'Inter', monospace;
+  color: rgba(255,255,255,0.5);
+}
+body.paused #slide-id { opacity: 0.7; }
 .slide-video {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   background: #000; opacity: 0; transition: opacity 1.2s ease;
@@ -87,6 +93,7 @@ body.paused #counter { opacity: 0.5; }
 <div id="progress"></div>
 <div id="pause-indicator"></div>
 <div id="counter"></div>
+<div id="slide-id"></div>
 <div id="controls">SPATIE = pauze/play | pijltjes = vorige/volgende<br>F = fullscreen | + / - = sneller/trager</div>
 
 <script>
@@ -126,6 +133,7 @@ var capWrap = document.getElementById('caption');
 var progressEl = document.getElementById('progress');
 var pauseEl = document.getElementById('pause-indicator');
 var counterEl = document.getElementById('counter');
+var slideIdEl = document.getElementById('slide-id');
 
 function buildCard(s) {
   var d = document.createElement('div');
@@ -163,6 +171,7 @@ function showSlide(index) {
   }
   progressEl.style.width = ((index + 1) / SLIDES.length * 100) + '%';
   counterEl.textContent = (index + 1) + ' / ' + SLIDES.length;
+  slideIdEl.textContent = s.s ? '# ' + s.s.replace(/\.[^.]+$/, '') : '';
   if (index + 1 < SLIDES.length && SLIDES[index + 1].t === 'img') {
     var img = new Image(); img.src = 'images/' + SLIDES[index + 1].s;
   }
